@@ -1,0 +1,21 @@
+service: serverless-pdf-creator
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+
+plugins:
+  - serverless-plugin-typescript
+
+package:
+  patterns:
+    - src/templates/**
+
+functions:
+  createPdf:
+    handler: src/pdf-creator/handler.createPdf
+    events:
+      - httpApi:
+          path: /pdf/create
+          method: post
