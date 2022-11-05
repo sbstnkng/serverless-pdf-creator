@@ -34,7 +34,7 @@ export const create = async (message: Message): Promise<PdfFile> => {
 
     const page: Page = await browser.newPage();
     await page.setContent(html, { waitUntil: 'networkidle0' });
-    return await page.pdf({ format: 'A4' });
+    return page.pdf({ format: 'A4' });
   } catch (error) {
     console.error(error);
     throw error;
