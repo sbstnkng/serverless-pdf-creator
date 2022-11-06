@@ -24,17 +24,21 @@ export const create = async (message: Message): Promise<PdfFile> => {
   const html: string = compileTemplate(message);
 
   try {
+    const executablePath: string = process.env.IS_OFFLINE
+      ? require('puppeteer').executablePath() // Required to fetch local chromium binaries from puppeteer during offline mode
+      : await chromium.executablePath;
+
     browser = await puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath,
-      headless: chromium.headless,
+      executablePath: executablePath,
+      headless: true,
       ignoreHTTPSErrors: true,
     });
 
     const page: Page = await browser.newPage();
     await page.setContent(html, { waitUntil: 'networkidle0' });
-    return page.pdf({ format: 'A4' });
+    return await page.pdf({ format: 'A4' });
   } catch (error) {
     console.error(error);
     throw error;
