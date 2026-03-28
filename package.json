@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@sparticuz/chromium": "^108.0.1",
-    "handlebars": "^4.7.7",
+    "handlebars": "^4.7.9",
     "puppeteer-core": "^24.4.0"
   }
 }
